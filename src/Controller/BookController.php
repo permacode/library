@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\BookBuilder;
+use App\BookGetter;
+use App\BookMaker;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Form\BookUpdateType;
@@ -27,15 +30,21 @@ class BookController extends AbstractController
     #[Route('/new', name: 'app_book_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        BookGetter $getter
     ): Response {
-        $book = new Book();
+        $book = new Book([]);
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Get the results of API by getting the title and author
-            $key = $_ENV['GOOGLE_API_KEY'];
+            $newBook = $getter->getBooks([
+                'title' => $form['title']->getData(),
+                'author' => $form['author']->getData()
+            ])['items'][0]['volumeInfo'];
+
+            $book = BookBuilder::buildBook($newBook, $book);
 
             // Persist the result
             $entityManager->persist($book);

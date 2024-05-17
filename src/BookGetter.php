@@ -7,7 +7,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BookGetter
 {
-    private string $endpoint;
+    private string $endpoint = 'https://www.googleapis.com/books/v1/volumes';
     private string $key;
 
     public function __construct(
@@ -18,17 +18,21 @@ class BookGetter
 
     public function getBooks(array $context): array
     {
-        $title = $context['title'];
-        $author = $context['author'];
+        $title = $context['title'] ?? '';
+        $author = $context['author'] ?? '';
 
-        $this->endpoint = \sprintf(
-            'https://www.googleapis.com/books/v1/volumes?q=%s+inauthor:%s&key=%s',
-            $title,
-            $author,
-            $this->key
-        );
-        $response = $this->client->request('GET', $this->endpoint);
-        dump($response);
-        return $arrayName = array($response);
+        $queryParameters = [
+            'q' => $title,
+            'inauthor' => $author,
+            'key' => $this->key
+        ];
+
+        $response = $this->client->request('GET', $this->endpoint, [
+            'query' => $queryParameters
+        ]);
+
+        $data = $response->toArray();
+
+        return $data;
     }
 }
