@@ -4,7 +4,12 @@ services:
 ###> doctrine/doctrine-bundle ###
   database:
     ports:
-      - "5432:5432"
+      - "5432:5432"    
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!app!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
 ###< doctrine/doctrine-bundle ###
 
 ###> symfony/mailer ###
