@@ -15,21 +15,18 @@ class BookBuilder
         \dump($newBook);
 
         $isbn = $newBook['industryIdentifiers'][0]['type'] === "ISBN_13" ? $newBook['industryIdentifiers'][0]['identifier'] : 0;
-        if (
-            isset($newBook['title']) &&
-            isset($newBook['authors']) &&
-            isset($newBook['publishedDate'])
-        ) {
-            $book->setTitle($newBook['title']);
-            $book->setAuthor($newBook['authors'][0]);
-            $book->setPublicationDate(new DateTime($newBook['publishedDate']));
-            if ($newBook)
-                $book->setIsbn($isbn);
-            $book->setCreatedAt(new DateTimeImmutable());
+        $book->setIsbn($isbn);
 
-            return $book;
-        }
+        $newTitle = isset($newBook['title']) ? $newBook['title'] : '';
+        $book->setTitle($newTitle);
+        
+        $newAuthor = isset($newBook['authors']) ? $newBook['authors'][0] : '';
+        $book->setAuthor($newAuthor);
 
-        return null;
+        $book->setPublicationDate(new DateTime($newBook['publishedDate']));
+
+        $book->setCreatedAt(new DateTimeImmutable());
+
+        return $book;
     }
 }

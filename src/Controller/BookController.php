@@ -79,6 +79,8 @@ class BookController extends AbstractController
             return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        \dump($book);
+
         return $this->render('book/edit.html.twig', [
             'book' => $book,
             'form' => $form,

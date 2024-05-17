@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\BookRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
+    public function __construct() {
+        $this->updatedAt = new DateTime();
+    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
