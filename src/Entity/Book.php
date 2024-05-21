@@ -8,9 +8,11 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Book
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->updatedAt = new DateTime();
     }
     #[ORM\Id]
@@ -107,6 +109,12 @@ class Book
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
+    }
+
+    #[ORM\PreUpdate]
+    public function refreshUpdatedAt(): void
+    {
+        $this->updatedAt = new DateTime();
     }
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): static

@@ -19,7 +19,7 @@ class BookBuilder
 
         $newTitle = isset($newBook['title']) ? $newBook['title'] : '';
         $book->setTitle($newTitle);
-        
+
         $newAuthor = isset($newBook['authors']) ? $newBook['authors'][0] : '';
         $book->setAuthor($newAuthor);
 
@@ -28,6 +28,8 @@ class BookBuilder
         $book->setPublicationDate(new DateTime($newBook['publishedDate']));
 
         $book->setCreatedAt(new DateTimeImmutable());
+
+        $book->setUpdatedAt(null);
 
         return $book;
     }
