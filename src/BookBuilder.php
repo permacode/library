@@ -23,6 +23,8 @@ class BookBuilder
         $newAuthor = isset($newBook['authors']) ? $newBook['authors'][0] : '';
         $book->setAuthor($newAuthor);
 
+        // TODO: Add a condition if the exactdate is not available
+        // E.g : If the "publishedDate" item is only a year, the returned value will be the current date in this year.
         $book->setPublicationDate(new DateTime($newBook['publishedDate']));
 
         $book->setCreatedAt(new DateTimeImmutable());
