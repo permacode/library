@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+#[ORM\HasLifecycleCallbacks]
 class Admin implements UserInterface, PasswordAuthenticatedUserInterface, Stringable
 {
     #[ORM\Id]
@@ -82,12 +83,18 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, String
     /**
      * @param list<string> $roles
      */
-    // TODO: Fix this: After creation, an admin only has "ROLE_USER"
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
 
         return $this;
+    }
+
+    // TODO: Fix this: After creation, an admin only has "ROLE_USER"
+    #[ORM\PrePersist]
+    public function initializeRoles(): void
+    {
+        $this->setRoles(["ROLE_USER", "ROLE_ADMIN"]);
     }
 
     /**
