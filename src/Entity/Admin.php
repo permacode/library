@@ -91,6 +91,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, String
     }
 
     // TODO: Fix this: After creation, an admin only has "ROLE_USER"
+    // Hint: Adding a default value on the Admin creation form
     #[ORM\PrePersist]
     public function initializeRoles(): void
     {
