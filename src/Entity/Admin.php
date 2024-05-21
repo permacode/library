@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AdminRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -31,6 +32,11 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, String
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    public function hashPassword(UserPasswordHasherInterface $hasher): void
+    {
+        $this->password = $hasher->hashPassword($this, $this->password);
+    }
 
     public function getId(): ?int
     {

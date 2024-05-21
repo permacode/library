@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -44,6 +46,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'addedBy')]
     private Collection $booksAdded;
+
+    // TODO: Fix this : connection does not work, but does work with Admin
+    public function hashPassword(UserPasswordHasherInterface $hasher): void
+    {
+        $this->password = $hasher->hashPassword($this, $this->password);
+    }
 
     public function __construct()
     {
