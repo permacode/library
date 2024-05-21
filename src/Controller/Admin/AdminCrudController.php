@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class AdminCrudController extends AbstractCrudController
 {
@@ -20,7 +21,8 @@ class AdminCrudController extends AbstractCrudController
     {
         yield IdField::new('id')->hideOnForm();
         yield TextField::new('username');
-        yield TextField::new('password');
+        yield TextField::new('password')
+            ->setFormType(PasswordType::class);
         yield ArrayField::new('roles');
     }
 }
