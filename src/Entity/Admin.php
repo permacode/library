@@ -82,6 +82,7 @@ class Admin implements UserInterface, PasswordAuthenticatedUserInterface, String
     /**
      * @param list<string> $roles
      */
+    // TODO: Fix this: After creation, an admin only has "ROLE_USER"
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
