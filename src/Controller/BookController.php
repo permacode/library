@@ -59,7 +59,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_book_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'app_book_show', methods: ['GET'])]
     public function show(Book $book): Response
     {
         return $this->render('book/show.html.twig', [
@@ -67,7 +67,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_book_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'app_book_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Book $book, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(BookUpdateType::class, $book);
@@ -87,7 +87,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_book_delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'app_book_delete', methods: ['POST'])]
     public function delete(Request $request, Book $book, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $book->getId(), $request->getPayload()->get('_token'))) {

@@ -6,9 +6,12 @@ use App\Repository\BookRepository;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity('slug')]
 class Book
 {
     public function __construct()
@@ -40,6 +43,21 @@ class Book
 
     #[ORM\ManyToOne(inversedBy: 'booksAdded')]
     private ?User $addedBy = null;
+
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    private ?string $slug = null;
+
+    public function __toString(): string
+    {
+        return $this->title;
+    }
+
+    public function computeSlug( SluggerInterface $slugger)
+    {
+        if(!$this->slug || '-' === $this->slug) {
+            $this->slug = (string) $slugger->slug((string) $this)->lower();
+        }
+    }
 
     public function getId(): ?int
     {
@@ -132,6 +150,18 @@ class Book
     public function setAddedBy(?User $addedBy): static
     {
         $this->addedBy = $addedBy;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
