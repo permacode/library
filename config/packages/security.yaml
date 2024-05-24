@@ -37,8 +37,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/book/new, roles: ROLE_USER } #security works for this route
-        - { path: ^/book/\d+/edit, roles: ROLE_USER }
+        - { path: ^/book/new, roles: ROLE_USER }
+        - { path: ^/book/\d+/edit, roles: ROLE_USER } # To protect "edit" route, which needs an ID
+        - { path: ^/book/\d+, roles: ROLE_USER, methods: [POST] } #To protect "delete" route, which needs an ID
 
 when@test:
     security:
