@@ -23,6 +23,7 @@ class AdminCrudController extends AbstractCrudController
         yield TextField::new('username');
         yield TextField::new('password')
             ->setFormType(PasswordType::class);
-        yield ArrayField::new('roles');
+        yield ArrayField::new('roles')
+            ->hideOnForm();
     }
 }
