@@ -44,7 +44,11 @@ class Book
     #[ORM\ManyToOne(inversedBy: 'booksAdded')]
     private ?User $addedBy = null;
 
-    #[ORM\Column(length: 255, nullable: true, unique: true)]
+    #[ORM\Column(
+        length: 255,
+        nullable: true,
+        unique: true
+    )]
     private ?string $slug = null;
 
     public function __toString(): string
@@ -52,9 +56,9 @@ class Book
         return $this->title;
     }
 
-    public function computeSlug( SluggerInterface $slugger)
+    public function computeSlug(SluggerInterface $slugger)
     {
-        if(!$this->slug || '-' === $this->slug) {
+        if (!$this->slug || '-' === $this->slug) {
             $this->slug = (string) $slugger->slug((string) $this)->lower();
         }
     }

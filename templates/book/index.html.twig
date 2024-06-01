@@ -13,6 +13,7 @@
                 <th>Author</th>
                 <th>PublicationDate</th>
                 <th>Isbn</th>
+                <th>Slug</th>
                 <th>Created_at</th>
                 <th>Updated_at</th>
                 <th>actions</th>
@@ -26,6 +27,7 @@
                 <td>{{ book.author }}</td>
                 <td>{{ book.publicationDate ? book.publicationDate|date('Y-m-d') : '' }}</td>
                 <td>{{ book.isbn }}</td>
+                <td>{{ book.slug }}</td>
                 <td>{{ book.createdAt ? book.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ book.updatedAt ? book.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>

@@ -39,13 +39,14 @@ class BookController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Get the results of API by getting the title and author
-            $newBook = $getter->getBooks([
+            // TODO: give the responsibility of decompozing the results array to the BookGetter
+            $newBookArray = $getter->getBooks([
                 'title' => $form['title']->getData(),
                 'author' => $form['author']->getData()
             ])['items'][0]['volumeInfo'];
 
-            $book = BookBuilder::buildBook($newBook, $book);
-
+            $book = BookBuilder::buildBook($newBookArray, $book);
+            
             // Persist the result
             $entityManager->persist($book);
             $entityManager->flush();
@@ -78,8 +79,6 @@ class BookController extends AbstractController
 
             return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        \dump($book);
 
         return $this->render('book/edit.html.twig', [
             'book' => $book,

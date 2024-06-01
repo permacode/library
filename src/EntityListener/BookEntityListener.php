@@ -3,20 +3,20 @@
 namespace App\EntityListener;
 
 use App\Entity\Book;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
-use Doctrine\ORM\Events;
 
-#[AsEntityListener(event: Events::prePersist, entity: Book::class)]
 #[AsEntityListener(event: Events::preUpdate, entity: Book::class)]
-class ConferenceEntityListener
+#[AsEntityListener(event: Events::prePersist, entity: Book::class)]
+class BookEntityListener
 {
     public function __construct(private SluggerInterface $slugger)
     {
     }
-    public function __invoke(Book $conference, LifecycleEventArgs $event)
+    public function __invoke(Book $book, LifecycleEventArgs $event)
     {
-        $conference->computeSlug($this->slugger);
+        $book->computeSlug($this->slugger);
     }
 }
