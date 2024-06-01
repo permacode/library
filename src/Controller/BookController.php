@@ -39,14 +39,13 @@ class BookController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Get the results of API by getting the title and author
-            // TODO: give the responsibility of decompozing the results array to the BookGetter
-            $newBookArray = $getter->getBooks([
+            $newBookArray = $getter->getBookSearchResult([
                 'title' => $form['title']->getData(),
                 'author' => $form['author']->getData()
-            ])['items'][0]['volumeInfo'];
+            ]);
 
             $book = BookBuilder::buildBook($newBookArray, $book);
-            
+
             // Persist the result
             $entityManager->persist($book);
             $entityManager->flush();

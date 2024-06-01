@@ -2,6 +2,7 @@
 
 namespace App;
 
+use OutOfBoundsException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -16,7 +17,7 @@ class BookGetter
         $this->key = $_ENV['GOOGLE_API_KEY'];
     }
 
-    public function getBooks(array $context): array
+    public function getBookSearchResult(array $context): array
     {
         $title = $context['title'] ?? '';
         $author = $context['author'] ?? '';
@@ -31,8 +32,17 @@ class BookGetter
             'query' => $queryParameters
         ]);
 
-        $data = $response->toArray();
+        $result = $response->toArray();
 
-        return $data;
+        return $this->getBookData($result);
+    }
+
+    public function getBookData(array $result): array
+    {
+        try {
+            return $result['items'][0]['volumeInfo'];
+        } catch (\Throwable $th) {
+            throw new OutOfBoundsException("There was an error when decomposing the result array.");
+        }
     }
 }
