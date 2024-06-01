@@ -47,7 +47,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'addedBy')]
     private Collection $booksAdded;
 
-    // TODO: Fix this : connection does not work, but does work with Admin
     public function hashPassword(UserPasswordHasherInterface $hasher): void
     {
         $this->password = $hasher->hashPassword($this, $this->password);
