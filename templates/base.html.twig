@@ -28,15 +28,16 @@
 				<a class="navbar-brand" href="#">
 					Book store
 				</a>
-				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				<ul
+					class="navbar-nav mr-auto mt-2 mt-lg-0">
 					{# <li class="nav-item active">
-						<a class="nav-link" href="{{app_book_index}}">
-							Home
-							<span class="sr-only">
-								(current)
-							</span>
-						</a>
-					</li> #}
+											<a class="nav-link" href="{{app_book_index}}">
+												Home
+												<span class="sr-only">
+													(current)
+												</span>
+											</a>
+										</li> #}
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_book_index') }}">
 							Book index
@@ -49,26 +50,31 @@
 							</a>
 						</li>
 					{% endif %}
-                    {% if is_granted('ROLE_USER') %}
+					{% if is_granted('ROLE_USER') %}
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('app_logout') }}">
 								Logout
 							</a>
 						</li>
-                    {% else %}
+					{% else %}
 						<li class="nav-item">
 							<a class="nav-link" href="{{ path('app_login') }}">
 								Login
 							</a>
 						</li>
-                    {% endif %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_register') }}">
+								Register
+							</a>
+						</li>
+					{% endif %}
 				</ul>
 				{# <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                        Search
-                    </button>
-                </form> #}
+				                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+				                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+				                        Search
+				                    </button>
+				                </form> #}
 			</div>
 		</nav>
 		{% block body %}
