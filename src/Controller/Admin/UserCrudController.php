@@ -32,7 +32,9 @@ class UserCrudController extends AbstractCrudController
         yield IdField::new('id')->hideOnForm();
         yield TextField::new('username');
         yield TextField::new('password')
+            ->hideOnIndex()
             ->setFormType(PasswordType::class);
         yield EmailField::new('email');
+        yield ArrayField::new('roles');
     }
 }
