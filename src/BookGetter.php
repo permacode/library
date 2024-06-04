@@ -4,6 +4,7 @@ namespace App;
 
 use OutOfBoundsException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BookGetter
@@ -12,7 +13,8 @@ class BookGetter
     private string $key;
 
     public function __construct(
-        private readonly HttpClientInterface $client
+        private readonly HttpClientInterface $client,
+        private DenormalizerInterface $denormalizer,
     ) {
         $this->key = $_ENV['GOOGLE_API_KEY'];
     }
