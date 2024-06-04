@@ -15,7 +15,7 @@ final readonly class BookDto
 
     public function setIndustryIdentifiers(array $industryIdentifiers)
     {
-        $this->isbn = $industryIdentifiers[0]['identifier'];
+        $this->isbn = \substr($industryIdentifiers[0]['identifier'], 0, 13);
     }
 
     public function setAuthors(array $authors)
