@@ -9,7 +9,7 @@
         {% endif %}
 
         {% if app.user %}
-            <div class="mb-3 success mx-auto p-2">
+            <div class="mb-3 bg-success-subtle mx-auto p-2">
                 You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
             </div>
         {% endif %}
@@ -39,9 +39,12 @@
             Sign in
         </button>
 
-        <div class="mx-auto max-content p-3">
-            New on this site ? 
-            <a href="{{ path('app_register') }}">Register</a>
-        </div>
+        {% if is_granted('ROLE_USER') %}
+        {% else %}
+            <div class="mx-auto max-content p-3">
+                New on this site ? 
+                <a href="{{ path('app_register') }}">Register</a>
+            </div>
+        {% endif %}
     </form>
 {% endblock %}
